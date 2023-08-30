@@ -1,9 +1,8 @@
-const express = require('express')
+const {Router} = require('express')
 const agenda = require('../agenda.json')
-const userRouter = express.Router();
+const userRouter = Router();
 
-// Agregar middleware para analizar el body de la solicitud en formato JSON
-userRouter.use(express.json())
+
 
 //Endpoints 
 
@@ -25,9 +24,9 @@ userRouter.get('/users/:id', (req, res) => {
 
 //Crear usuario
 userRouter.post('/users', (req, res) => {
-    const {id, name, phone} = req.body
+    const {id, name, phone, role} = req.body
 
-    if(!id || !name) return res.status(400).send()  //Validamos que tenemos los datos
+    if(!id || !name || !role) return res.status(400).send()  //Validamos que tenemos los datos
 
     const user = agenda.find((user) => user.id == id)
     if(user) return res.status(409).send();     //Ya hay un user con este id (Error 409)
@@ -35,7 +34,8 @@ userRouter.post('/users', (req, res) => {
     agenda.push({
         id,
         name,
-        phone
+        phone,
+        role
     })
 
     return res.send()
