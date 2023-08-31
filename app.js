@@ -11,6 +11,11 @@ expressApp.use(express.json())
 expressApp.use(express.text())
 
 //Routes
+expressApp.use(cors({
+    origin: 'http://localhost:5173',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+}));
 expressApp.use(usersRouter)
 expressApp.use(authRouter)
 
